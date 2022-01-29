@@ -1,7 +1,7 @@
 use clap::{App, Arg};
 use std::env;
-use std::io::{self, BufReader, BufWriter, ErrorKind, Result, Read, Write};
 use std::fs::File;
+use std::io::{self, BufReader, BufWriter, ErrorKind, Read, Result, Write};
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const APP_NAME: &str = env!("CARGO_PKG_NAME");
@@ -16,10 +16,7 @@ fn main() -> Result<()> {
         .author(AUTHORS)
         .about("application which count number of bytes from stdin or from a file")
         .long_about(DESCRIPTION)
-        .arg(
-            Arg::new("input-file")
-                .help("Read from a file instead of stdin")
-        )
+        .arg(Arg::new("input-file").help("Read from a file instead of stdin"))
         .arg(
             Arg::new("output-file")
                 .short('o')
@@ -27,11 +24,8 @@ fn main() -> Result<()> {
                 .takes_value(true)
                 .help("Write output to a file instead of stdout"),
         )
-        .arg(
-            Arg::new("silent")
-                .short('s')
-                .long("silent")
-        ).get_matches();
+        .arg(Arg::new("silent").short('s').long("silent"))
+        .get_matches();
 
     let input_file = matches.value_of("input-file").unwrap_or_default();
     let output_file = matches.value_of("output-file").unwrap_or_default();
@@ -39,14 +33,14 @@ fn main() -> Result<()> {
     let silent = match matches.is_present("silent") {
         true => true,
         false => !env::var("PV_SILENT").unwrap_or_default().is_empty(),
-    } ;
+    };
     let mut reader: Box<dyn Read> = match input_file.is_empty() {
-        true => Box::new(BufWriter::new(io::stdin())),
-        false => Box::new(BufReader::new(File::open(input_file)?))
+        true => Box::new(BufReader::new(io::stdin())),
+        false => Box::new(BufReader::new(File::open(input_file)?)),
     };
     let mut writer: Box<dyn Write> = match output_file.is_empty() {
         true => Box::new(BufWriter::new(io::stdout())),
-        false => Box::new(BufWriter::new(File::create(output_file)?))
+        false => Box::new(BufWriter::new(File::create(output_file)?)),
     };
 
     let mut total_bytes = 0;
@@ -70,5 +64,5 @@ fn main() -> Result<()> {
         };
     }
 
-    return Ok(());
+    Ok(())
 }
