@@ -1,7 +1,12 @@
 [package]
 name = "pipeviewer"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
+description = "Course version of the pv utility"
+homepage = "https://github.com/ulphidius/pipeviewer"
+repository = "https://github.com/ulphidius/pipeviewer"
+readme = "README.md"
+licence = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
